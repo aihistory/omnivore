@@ -1,159 +1,220 @@
-# Omnivore
+# 1ms-helper
 
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/omnivore-app/omnivore/run-tests.yaml?branch=main)](https://github.com/omnivore-app/omnivore/actions/workflows/run-tests.yaml)
-[![Discord](https://img.shields.io/discord/844965259462311966?label=Join%20our%20Discord)](https://discord.gg/h2z5rppzz9)
-[![Mastodon Follow](https://img.shields.io/mastodon/follow/109458738600914558?domain=https%3A%2F%2Fpkm.social)](https://pkm.social/@omnivore)
-[![Twitter Follow](https://img.shields.io/twitter/follow/omnivoreapp)](https://twitter.com/OmnivoreApp)
-![GitHub](https://img.shields.io/github/license/omnivore-app/omnivore)
+> 毫秒镜像（1ms.run）助手工具 - 一键配置Docker镜像加速
 
-<img align="right" src="https://avatars.githubusercontent.com/u/70113176?s=400&u=506b21d9f019f3160963c010ef363667fb24c7c9&v=4" height="150px" alt="Omnivore Logo">
+[![Go Version](https://img.shields.io/badge/Go-1.23.4+-00ADD8?style=flat-square&logo=go)](https://golang.org/)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows%20%7C%20Synology-lightgrey?style=flat-square)](https://cnb.cool/mliev/1ms.run/1ms-helper)
 
-[Omnivore](https://omnivore.app) is a complete, open source read-it-later solution for people who like text.
+## 📋 项目简介
 
-We built Omnivore because we love reading and we want it to be more social. Join us!
+1ms-helper 是一个专为 [毫秒镜像（1ms.run）](https://1ms.run) 设计的命令行助手工具，旨在帮助开发者快速配置Docker镜像加速服务。支持一键配置多个主流Docker镜像仓库的加速地址和认证信息。
 
-- Highlighting, notes, search, and sharing
-- Full keyboard navigation
-- Automatically saves your place in long articles
-- Add newsletter articles via email (with substack support!)
-- PDF support
-- [Web app](https://omnivore.app/) written in Node.js and TypeScript
-- [Native iOS app](https://omnivore.app/install/ios) ([source](https://github.com/omnivore-app/omnivore/tree/main/apple))
-- [Android app](https://omnivore.app/install/android) ([source](https://github.com/omnivore-app/omnivore/tree/main/android/Omnivore))
-- Progressive web app for Android users
-- Browser extensions for [Chrome](https://omnivore.app/install/chrome), [Safari](https://omnivore.app/install/safari), [Firefox](https://omnivore.app/install/firefox), and [Edge](https://omnivore.app/install/edge)
-- Labels (aka tagging)
-- Offline support
-- Text to speech (iOS only)
-- [Logseq](https://logseq.com/) support via our [Logseq Plugin](https://github.com/omnivore-app/logseq-omnivore)
-- [Obsidian](https://obsidian.md/) support via our [Obsidian Plugin](https://github.com/omnivore-app/obsidian-omnivore)
+## ✨ 功能特性
 
-Every single part is fully open source! Fork it, extend it, or deploy it to your own server.
+- 🚀 **一键配置** - 快速配置毫秒镜像加速服务
+- 🔐 **账号管理** - 安全管理毫秒镜像账号和认证信息
+- 🌐 **多仓库支持** - 支持 Docker Hub、GitHub Container Registry、Google Container Registry 等多个镜像仓库
+- 🖥️ **跨平台兼容** - 支持 Linux、macOS、Windows 和群晖 NAS 系统
+- ⚡ **智能检测** - 自动检测系统环境并应用最适合的配置
+- 🛡️ **连接测试** - 提供连接状态检查和问题诊断功能
 
-A guide for running a self hosted server can be found [here](./self-hosting/GUIDE.md)
+## 🎯 支持的镜像仓库
 
-<img width="981" alt="web-screenshot-listview" src="https://github.com/omnivore-app/omnivore/assets/75189/df7c797a-4255-42f4-a686-ad94866cb580">
+| 仓库名称 | 原始地址 | 加速地址 | 状态 |
+|---------|---------|---------|------|
+| Docker Hub | `docker.io` | `docker.1ms.run` | ✅ |
+| GitHub Container Registry | `ghcr.io` | `ghcr.1ms.run` | ✅ |
+| Google Container Registry | `gcr.io` | `gcr.1ms.run` | ✅ |
+| NVIDIA Container Registry | `nvcr.io` | `nvcr.1ms.run` | ✅ |
+| Red Hat Quay | `quay.io` | `quay.1ms.run` | ✅ |
+| Elastic Docker Registry | `docker.elastic.co` | `elastic.1ms.run` | ✅ |
+| Microsoft Container Registry | `mcr.microsoft.com` | `mcr.1ms.run` | ✅ |
+| Kubernetes Container Registry | `registry.k8s.io` | `k8s.1ms.run` | ✅ |
 
-## Join us on Discord! :speech_balloon:
+## 📦 安装方式
 
-We're building our community on Discord. [Join us!](https://discord.gg/h2z5rppzz9)
-
-Read more about Omnivore on our blog. <https://blog.omnivore.app/p/getting-started-with-omnivore>
-
-## Shoutouts :tada:
-
-Omnivore takes advantage of some great open source software:
-
-- [TypeScript](https://www.typescriptlang.org/) - Most of our backend and frontend are written in TypeScript.
-- [Next.js](https://nextjs.org/) - Our frontend is a Next.JS app and is hosted on [Vercel](https://vercel.com/).
-- [SWR](https://swr.vercel.app/) - We do all our data fetching on the web using SWR.
-- [Stitches](https://stitches.dev/) - We use Stitches on the frontend to style our components.
-- [Mozilla Readability](https://github.com/mozilla/readability) - We use Mozilla's Readability library to make pages easier to read.
-- [Swift GraphQL](https://www.swift-graphql.com/) - We generate our GraphQL queries on iOS using Swift GraphQL.
-- [Apollo GraphQL](https://www.apollographql.com/) - We generate our GraphQL queries on Android using Apollo GraphQL.
-- [Radix](https://www.radix-ui.com/) - We use Radix UI's components on our frontend.
-- [PDF.js](https://github.com/mozilla/pdf.js) - PDF.js is used to have open source pdf functionality. 
-- And many more awesome libraries, just checkout our package files to see what we are using.
-
-## Importing Libraries
-
-Check out our [docs](https://docs.omnivore.app/using/importing.html) for information on importing your data from other apps.
-
-## How to setup local development :computer:
-
-The easiest way to get started with local development is to use `docker compose up`. This will start a postgres container, our web frontend, an API server, and our content fetching microservice.
-
-### Requirements for development
-
-Omnivore is written in TypeScript and JavaScript.
-
-- [Node.js](https://nodejs.org/) (v18.16) and [Yarn](https://classic.yarnpkg.com/lang/en/) -- Versions are managed by [Volta](https://docs.volta.sh/guide/getting-started).
-- [Chromium](https://www.chromium.org/chromium-projects/) -- See below for installation info.
-
-### Running the web and API services
-
-#### 1. Start docker compose
+### 方式一：一键安装（推荐）
 
 ```bash
-git clone https://github.com/omnivore-app/omnivore
-cd omnivore
-docker compose up
+# Linux/macOS
+curl -sSL https://static.1ms.run/1ms-helper/install.sh | bash
+
+# 或者使用 wget
+wget -qO- https://static.1ms.run/1ms-helper/install.sh | bash
 ```
 
-This will start postgres, initialize the database, and start the web and api services.
+### 方式二：手动安装
 
-#### 2. Open the browser
-
-Open <http://localhost:3000> and confirm Omnivore is running
-
-#### 3. Login with the test account
-
-During database setup docker compose creates an account `demo@omnivore.app`, password: `demo_password`.
-
-Go to <http://localhost:3000/> in your browser and choose `Continue with Email` to login.
-
-### Frontend Development
-
-If you want to work on just the frontend of Omnivore you can run the backend services
-with docker compose and the frontend locally:
+1. 访问 [Releases 页面](https://cnb.cool/mliev/1ms.run/1ms-helper/-/releases) 下载对应系统的二进制文件
+2. 解压并移动到系统 PATH 目录：
 
 ```bash
-docker compose up api content-fetch
-cd packages/web
-cp .env.template .env.local
-yarn dev
+# Linux/macOS 示例
+tar -xzf 1ms-helper_Linux_x86_64.tar.gz
+sudo mv 1ms-helper /usr/local/bin/
+chmod +x /usr/local/bin/1ms-helper
 ```
 
-You will need to configure some values in the new `.env.local` file. These are
-the values for running the `web` service directly on your host machine and
-running `api` and `content-fetch` within docker:
-
-```sh
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_HIGHLIGHTS_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_LOCAL_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_SERVER_BASE_URL=http://localhost:4000
-NEXT_PUBLIC_LOCAL_SERVER_BASE_URL=http://localhost:4000
-```
-
-### Running the puppeteer-parse service outside of Docker
-
-To save pages you need to run the `puppeteer-parse` service.
-
-#### 1. Install and configure Chromium
+### 方式三：源码编译
 
 ```bash
-brew install chromium --no-quarantine
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-export CHROMIUM_PATH=`which chromium`
+# 克隆仓库
+git clone https://github.com/mliev/1ms-helper.git
+cd 1ms-helper
+
+# 安装依赖
+go mod tidy
+
+# 编译
+go build -o 1ms-helper main.go
+
+# 运行
+./1ms-helper
 ```
 
-#### 2. Navigate to the service directory, setup your env file, and install dependencies
+## 🚀 使用指南
+
+### 基本命令
 
 ```bash
-cd packages/puppeteer-parse
-cp .env.example .env
-yarn
+# 显示帮助信息
+1ms-helper --help
+
+# 检查毫秒镜像连接状态
+1ms-helper check
+
+# 配置毫秒镜像账号
+1ms-helper config:account
+
+# 配置镜像加速
+1ms-helper config:mirror
+
+# 一键配置（推荐）
+1ms-helper config
+
+# 移除镜像配置
+1ms-helper remove:mirror
 ```
 
-#### 3. Start the service
+### 详细使用步骤
+
+#### 1. 检查连接状态
+```bash
+1ms-helper check
+```
+检查与毫秒镜像的网络连接状态和配置是否正确。
+
+#### 2. 配置账号信息
+```bash
+1ms-helper config:account
+```
+按提示输入您在 [毫秒镜像](https://1ms.run) 注册的账号和密码。
+
+#### 3. 配置镜像加速
+```bash
+1ms-helper config:mirror
+```
+根据您的系统环境自动配置 Docker daemon 的镜像加速设置。
+
+#### 4. 一键配置（推荐新用户）
+```bash
+1ms-helper config
+```
+依次执行镜像配置和账号配置，适合首次使用的用户。
+
+## 📁 项目结构
+
+```
+1ms-helper/
+├── app/                    # 应用核心代码
+│   ├── Command/           # 命令实现
+│   │   ├── Check.go      # 连接检查命令
+│   │   ├── Config.go     # 一键配置命令
+│   │   ├── ConfigAccount.go    # 账号配置命令
+│   │   ├── ConfigMirror.go     # 镜像配置命令
+│   │   ├── ConfigMirror/       # 镜像配置实现
+│   │   │   ├── Linux.go        # Linux系统配置
+│   │   │   └── Synology.go     # 群晖系统配置
+│   │   ├── RemoveAccount.go    # 账号移除命令
+│   │   └── RemoveMirror/       # 镜像移除命令
+│   ├── Dto/               # 数据传输对象
+│   ├── Interfaces/        # 接口定义
+│   ├── Lib/              # 公共库
+│   │   ├── Ask.go        # 用户交互
+│   │   └── Question/     # 问题类型
+│   └── Utils/            # 工具类
+├── cmd/                   # 命令行入口
+├── config/               # 配置管理
+├── main.go              # 程序入口
+├── go.mod               # Go模块定义
+├── go.sum               # 依赖校验
+└── install.sh           # 安装脚本
+```
+
+## 🔧 开发相关
+
+### 开发环境要求
+
+- Go 1.23.4+
+- Git
+
+### 主要依赖
+
+- [cobra](https://github.com/spf13/cobra) - 命令行框架
+- [color](https://github.com/gookit/color) - 彩色输出
+- [term](https://golang.org/x/term) - 终端控制
+
+### 本地开发
 
 ```bash
-yarn start
+# 克隆项目
+git clone https://github.com/mliev/1ms-helper.git
+cd 1ms-helper
+
+# 安装依赖
+go mod tidy
+
+# 运行项目
+go run main.go
+
+# 运行测试
+go test ./...
+
+# 构建二进制文件
+go build -o bin/1ms-helper main.go
 ```
 
-This will start the puppeteer-parse service on port 9090.
+### 项目打包
 
-In your browser go to <http://localhost:3000/home>, click the `Add Link` button,
-and enter a URL such as `https://blog.omnivore.app/p/getting-started-with-omnivore`.
+```bash
+# 使用 goreleaser 进行跨平台打包
+goreleaser release --snapshot --clean
+```
 
-You should see a Chromium window open and navigate to your link. When the service
-is done fetching your content you will see it in your library.
+## 🤝 贡献指南
 
-## How to deploy to your own server
+我们欢迎社区贡献！请遵循以下步骤：
 
-A guide for running a self hosted server can be found [here](./self-hosting/GUIDE.md)
+1. Fork 本仓库
+2. 创建您的特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开一个 Pull Request
 
-## License
+## 📞 支持与反馈
 
-Omnivore and our extensions to Readability.js are under the AGPL-3.0 license.
+- 🐛 **问题反馈**: [GitHub Issues](https://cnb.cool/mliev/1ms.run/1ms-helper/-/issues)
+- 💬 **功能建议**: [GitHub Discussions](https://cnb.cool/mliev/1ms.run/1ms-helper/-/issues)
+- 📖 **使用文档**: [毫秒镜像文档](https://www.mliev.com/docs/1ms.run)
+- 🌐 **官方网站**: [https://1ms.run](https://1ms.run)
+
+## 🙏 致谢
+
+感谢所有为本项目做出贡献的开发者和 [毫秒镜像](https://1ms.run) 团队提供的优质服务。
+
+---
+
+<div align="center">
+  <p>如果这个项目对您有帮助，请给我们一个 ⭐ Star！</p>
+  <p>Made with ❤️ by <a href="https://github.com/mliev">mliev</a></p>
+</div>

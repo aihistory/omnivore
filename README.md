@@ -384,3 +384,10 @@ For more detailed troubleshooting, check the [self-hosting guide](./self-hosting
 ## License
 
 Omnivore and our extensions to Readability.js are under the AGPL-3.0 license.
+
+---
+
+## Language Versions
+
+- [English](README.md) - English version (current page)
+- [中文](README_CN.md) - Chinese version

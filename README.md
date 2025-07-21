@@ -154,6 +154,233 @@ is done fetching your content you will see it in your library.
 
 A guide for running a self hosted server can be found [here](./self-hosting/GUIDE.md)
 
+### Quick Start with Docker Compose
+
+For a quick deployment using Docker Compose, follow these steps:
+
+#### 1. Clone the repository and navigate to the docker-compose directory
+
+```bash
+git clone https://github.com/omnivore-app/omnivore
+cd omnivore/self-hosting/docker-compose
+```
+
+#### 2. Create and configure the environment file
+
+```bash
+cp env.example .env
+```
+
+Edit the `.env` file and update the following configurations:
+
+```bash
+# Update your server IP address (replace 192.168.0.157 with your actual IP)
+IMAGE_PROXY_URL=http://YOUR_SERVER_IP:7070
+CLIENT_URL=http://YOUR_SERVER_IP:3101
+LOCAL_MINIO_URL=http://YOUR_SERVER_IP:1011
+BASE_URL=http://YOUR_SERVER_IP:3101
+SERVER_BASE_URL=http://YOUR_SERVER_IP:4001
+HIGHLIGHTS_BASE_URL=http://YOUR_SERVER_IP:3101
+
+# Database configuration (keep these as default for first deployment)
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=omnivore
+PG_HOST=postgres
+PG_PASSWORD=postgres
+PG_DB=omnivore
+PG_USER=app_user
+PG_PORT=5432
+```
+
+#### 3. Start the services
+
+```bash
+sudo docker-compose up -d
+```
+
+#### 4. Access Omnivore
+
+Open your browser and navigate to `http://YOUR_SERVER_IP:3101`
+
+**Demo Account**: `demo@omnivore.app` / `demo_password`
+
+### Service Ports
+
+| Service | Port | Description |
+|---------|------|-------------|
+| Web Interface | 3101 | Main web application |
+| API Server | 4001 | Backend API service |
+| PostgreSQL | 5432 | Database (internal) |
+| Redis | 6478 | Cache (internal) |
+| MinIO | 1011 | Object storage |
+| Image Proxy | 7070 | Image processing service |
+| Content Fetch | 9090 | Content fetching service |
+| Mail Watch | 4398 | Email processing service |
+
+### Common Issues and Solutions
+
+#### Database Authentication Failed
+
+If you encounter `password authentication failed for user "app_user"`:
+
+1. **Check if the .env file exists**:
+   ```bash
+   ls -la .env
+   ```
+
+2. **Verify database user creation**:
+   ```bash
+   sudo docker exec omnivore-postgres psql -U postgres -c "\du"
+   ```
+
+3. **Manually create the app_user if missing**:
+   ```bash
+   sudo docker exec omnivore-postgres psql -U postgres -c "CREATE USER app_user WITH PASSWORD 'postgres';"
+   sudo docker exec omnivore-postgres psql -U postgres -c "GRANT omnivore_user TO app_user;"
+   sudo docker exec omnivore-postgres psql -U postgres -c "GRANT CONNECT ON DATABASE omnivore TO app_user;"
+   ```
+
+#### Services Not Starting
+
+1. **Check service status**:
+   ```bash
+   sudo docker-compose ps
+   ```
+
+2. **View service logs**:
+   ```bash
+   sudo docker logs omnivore-api
+   sudo docker logs omnivore-web
+   ```
+
+3. **Restart specific services**:
+   ```bash
+   sudo docker-compose restart api
+   sudo docker-compose restart web
+   ```
+
+#### Stopping Services
+
+To properly stop all services:
+
+```bash
+# Use the correct project name
+sudo docker-compose -p docker-compose down
+
+# Or stop with volumes (this will delete data)
+sudo docker-compose -p docker-compose down -v
+```
+
+#### Network Configuration Issues
+
+If services can't communicate:
+
+1. **Check network connectivity**:
+   ```bash
+   sudo docker network ls
+   sudo docker network inspect docker-compose_default
+   ```
+
+2. **Verify container networking**:
+   ```bash
+   sudo docker exec omnivore-api ping postgres
+   sudo docker exec omnivore-api ping redis
+   ```
+
+### Advanced Configuration
+
+#### Custom Domain Setup
+
+To use a custom domain instead of IP address:
+
+1. Update the `.env` file with your domain:
+   ```bash
+   BASE_URL=https://your-domain.com
+   SERVER_BASE_URL=https://your-domain.com/api
+   ```
+
+2. Configure reverse proxy (nginx/traefik) to forward requests to the appropriate ports.
+
+#### SSL/HTTPS Configuration
+
+For production deployments, consider using:
+
+- **Traefik** as reverse proxy with Let's Encrypt
+- **Nginx** with SSL certificates
+- **Cloudflare** for SSL termination
+
+#### Backup and Data Persistence
+
+Important data is stored in Docker volumes:
+
+- `docker-compose_pgdata`: PostgreSQL database
+- `docker-compose_redis_data`: Redis cache
+- `docker-compose_minio_data`: File storage
+
+To backup your data:
+
+```bash
+# Backup database
+sudo docker exec omnivore-postgres pg_dump -U postgres omnivore > backup.sql
+
+# Backup volumes
+sudo docker run --rm -v docker-compose_pgdata:/data -v $(pwd):/backup alpine tar czf /backup/pgdata-backup.tar.gz -C /data .
+```
+
+### Monitoring and Maintenance
+
+#### Health Checks
+
+Monitor service health:
+
+```bash
+# Check all services
+sudo docker-compose ps
+
+# Check specific service health
+sudo docker inspect omnivore-api --format='{{.State.Health.Status}}'
+```
+
+#### Log Management
+
+View and manage logs:
+
+```bash
+# View all logs
+sudo docker-compose logs
+
+# Follow specific service logs
+sudo docker-compose logs -f api
+
+# View recent logs
+sudo docker logs --tail 100 omnivore-api
+```
+
+#### Updates
+
+To update to the latest version:
+
+```bash
+# Pull latest images
+sudo docker-compose pull
+
+# Restart services
+sudo docker-compose up -d
+```
+
+### Troubleshooting Checklist
+
+- [ ] `.env` file exists and is properly configured
+- [ ] Server IP address is correctly set in `.env`
+- [ ] Database port is set to `5432` (not `5532`)
+- [ ] `app_user` database user exists with correct permissions
+- [ ] All required ports are accessible
+- [ ] Docker and Docker Compose are properly installed
+- [ ] Sufficient disk space and memory available
+
+For more detailed troubleshooting, check the [self-hosting guide](./self-hosting/GUIDE.md) or join our [Discord community](https://discord.gg/h2z5rppzz9).
+
 ## License
 
 Omnivore and our extensions to Readability.js are under the AGPL-3.0 license.
